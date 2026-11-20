@@ -1,0 +1,134 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  slug          String      @unique
+  name          String
+  tagline       String
+  price         Float
+  priceAlt      Float?
+  priceAltLabel String?
+  volume        String
+  type          String
+  category      String      // Perfumes, Attars, Oud, Luxury Editions
+  concentration String
+  gender        String
+  rating        Float       @default(4.9)
+  reviewsCount  Int         @default(0)
+  image         String
+  model3d       String?     // Optional 3D GLB model path
+  description   String
+  story         String
+  opening       String
+  heart         String
+  trail         String
+  badge         String?
+  inStock       Boolean     @default(true)
+  collectionSlug String?
+  reviews       Review[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Collection {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String    @unique
+  name        String
+  tagline     String
+  description String
+  image       String
+  createdAt   DateTime  @default(now())
+}
+
+model Order {
+  id                String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber       String      @unique
+  customerName      String
+  customerEmail     String
+  shippingAddress   String
+  city              String
+  country           String
+  postalCode        String
+  subtotal          Float
+  shippingCost      Float       @default(0)
+  total             Float
+  status            String      @default("CONFIRMED")
+  paymentMethod     String      @default("CARD")
+  paymentStatus     String      @default("PAID")
+  deliveryOption    String?     @default("STANDARD") // STANDARD (7d), FAST (4d), URGENT (1d)
+  deliveryDays      Int?        @default(7)
+  estimatedDelivery String?
+  stripeSessionId   String?
+  items             OrderItem[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+type OrderItem {
+  productId   String?
+  productSlug String?
+  productName String
+  image       String?
+  price       Float
+  volume      String?
+  quantity    Int      @default(1)
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model ContactInquiry {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  message   String
+  status    String   @default("UNREAD")
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author    String
+  rating    Int
+  comment   String
+  verified  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String    @unique
+  password    String
+  role        String    @default("CUSTOMER")
+  resetToken  String?
+  resetExpiry DateTime?
+  phone       String?
+  address     String?
+  city        String?
+  country     String?
+  postalCode  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+}
+
+model EmailOtp {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  code      String
+  type      String   @default("CHECKOUT")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

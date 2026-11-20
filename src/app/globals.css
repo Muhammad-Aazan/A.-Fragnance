@@ -1,26 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fcfaf7;
+  --bg-card: #ffffff;
+  --bg-elevated: #f7f3eb;
+  --gold: #c6a56b;
+  --gold-deep: #a88448;
+  --gold-light: #dfbe7a;
+  --gold-glow: rgba(198, 165, 107, 0.35);
+  --gold-dark: #7a5f2e;
+  --text: #171513;
+  --text-bright: #070707;
+  --text-body: #3c352d;
+  --muted: #756a5c;
+  --muted-dark: #9e9384;
+  --line: #e6decb;
+  --line-gold: #c6a56b;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  color-scheme: light;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, svg {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Luxury Gold Button with dynamic metallic shimmer */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2.2rem;
+  background: linear-gradient(135deg, #dfbe7a 0%, #c6a56b 40%, #a68449 100%);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(198, 165, 107, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-gold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  transition: 0.75s;
+}
+
+.btn-gold:hover::before {
+  left: 150%;
+}
+
+.btn-gold:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px rgba(198, 165, 107, 0.5);
+  filter: brightness(1.08);
+  color: #ffffff;
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+/* Outline Luxury Button */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border: 1px solid var(--gold);
+  color: #8a6829;
+  background: #ffffff;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(198, 165, 107, 0.35);
+}
+
+/* Product Card Add To Bag Button - Guaranteed visible on both states */
+.btn-add-to-bag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(198, 165, 107, 0.08) !important;
+  color: #8a6829 !important;
+  border: 1px solid rgba(198, 165, 107, 0.45) !important;
+  border-radius: 2px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+
+.btn-add-to-bag:hover {
+  background: linear-gradient(135deg, #dfbe7a 0%, #c6a56b 60%, #9e7d3b 100%) !important;
+  color: #ffffff !important;
+  border-color: #c6a56b !important;
+  box-shadow: 0 4px 20px rgba(198, 165, 107, 0.45) !important;
+  font-weight: 700 !important;
+}
+
+.btn-add-to-bag.is-added {
+  background: #a88448 !important;
+  color: #ffffff !important;
+  border-color: #a88448 !important;
+}
+
+/* Gold Text Gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #b8860b 0%, #c6a56b 40%, #8a6520 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Golden border subtle glow */
+.gold-border-glow {
+  border: 1px solid rgba(198, 165, 107, 0.35);
+  box-shadow: 0 2px 15px rgba(198, 165, 107, 0.12);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Cart Bump Animation */
+@keyframes cartBump {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.35); color: #c6a56b; }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.animate-cart-bump {
+  animation: cartBump 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Flying item to bag keyframe */
+@keyframes flyToBag {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-20px, -60px) scale(1.3);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(140px, -240px) scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(260px, -450px) scale(0.2);
+    opacity: 0;
+  }
+}
+
+.animate-fly-to-bag {
+  animation: flyToBag 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
