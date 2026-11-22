@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { products, collections } from "@/lib/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXTAUTH_URL || "https://afragrance.pk";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://afragrance.vercel.app";
   const now = new Date();
 
   // Core Static Pages

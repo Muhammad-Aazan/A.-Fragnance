@@ -4,7 +4,7 @@ import { CartProvider } from "@/lib/cart-context";
 import { WishlistProvider } from "@/lib/wishlist-context";
 import SiteShell from "@/components/layout/SiteShell";
 
-const siteUrl = process.env.NEXTAUTH_URL || "https://afragrance.pk";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://afragrance.vercel.app";
 
 export const viewport: Viewport = {
   themeColor: "#c6a56b",
